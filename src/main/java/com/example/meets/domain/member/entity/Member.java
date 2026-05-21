@@ -1,6 +1,8 @@
 package com.example.meets.domain.member.entity;
 
 import com.example.meets.common.entity.BaseEntity;
+import com.example.meets.domain.hobby.entity.HobbyGroup;
+import com.example.meets.domain.participation.entity.Participation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,8 +10,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +49,12 @@ public class Member extends BaseEntity {
   @Column(nullable = false)
   private boolean active;
 
+  @OneToMany(mappedBy = "host")
+  private List<HobbyGroup> hostedGroups = new ArrayList<>();
+
+  @OneToMany(mappedBy = "member")
+  private List<Participation> participations = new ArrayList<>();
+
   @Builder
   private Member(String email, String nickname, LocalDate birthDate, Gender gender, String bio) {
     this.email = email;
@@ -59,4 +70,3 @@ public class Member extends BaseEntity {
     this.bio = bio;
   }
 }
-
