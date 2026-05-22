@@ -9,6 +9,7 @@ import com.example.meets.domain.member.entity.Member;
 import com.example.meets.domain.member.repository.MemberRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,9 @@ public class MemberService {
   }
 
   public List<MemberSummaryResponse> getAll() {
-    return memberRepository.findAll().stream().map(MemberSummaryResponse::from).toList();
+    return memberRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).stream()
+        .map(MemberSummaryResponse::from)
+        .toList();
   }
 
   @Transactional
@@ -58,4 +61,3 @@ public class MemberService {
         .orElseThrow(() -> new ServiceException(ErrorCode.MEMBER_NOT_FOUND));
   }
 }
-
