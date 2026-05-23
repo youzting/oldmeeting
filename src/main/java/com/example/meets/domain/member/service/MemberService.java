@@ -10,6 +10,7 @@ import com.example.meets.domain.member.repository.MemberRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
+  private final PasswordEncoder passwordEncoder;
 
   @Transactional
   public MemberSummaryResponse create(CreateMemberRequest request) {
@@ -30,6 +32,7 @@ public class MemberService {
         Member.builder()
             .email(request.email())
             .nickname(request.nickname())
+            .password(passwordEncoder.encode(request.password()))
             .birthDate(request.birthDate())
             .gender(request.gender())
             .bio(request.bio())

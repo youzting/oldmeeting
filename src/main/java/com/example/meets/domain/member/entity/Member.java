@@ -1,5 +1,6 @@
 package com.example.meets.domain.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.example.meets.common.entity.BaseEntity;
 import com.example.meets.domain.hobby.entity.HobbyGroup;
 import com.example.meets.domain.participation.entity.Participation;
@@ -36,6 +37,10 @@ public class Member extends BaseEntity {
   @Column(nullable = false, length = 30)
   private String nickname;
 
+  @JsonIgnore
+  @Column(nullable = false)
+  private String password;
+
   @Column(nullable = false)
   private LocalDate birthDate;
 
@@ -56,9 +61,16 @@ public class Member extends BaseEntity {
   private List<Participation> participations = new ArrayList<>();
 
   @Builder
-  private Member(String email, String nickname, LocalDate birthDate, Gender gender, String bio) {
+  private Member(
+      String email,
+      String nickname,
+      String password,
+      LocalDate birthDate,
+      Gender gender,
+      String bio) {
     this.email = email;
     this.nickname = nickname;
+    this.password = password;
     this.birthDate = birthDate;
     this.gender = gender;
     this.bio = bio;
